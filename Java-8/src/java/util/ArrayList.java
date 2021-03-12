@@ -232,6 +232,10 @@ public class ArrayList<E> extends AbstractList<E>
         return minCapacity;
     }
 
+    /**
+     * 这个方法用来保证ArrayList中有足够的空间去存放这个元素
+     * @param minCapacity
+     */
     private void ensureCapacityInternal(int minCapacity) {
         ensureExplicitCapacity(calculateCapacity(elementData, minCapacity));
     }
@@ -496,12 +500,16 @@ public class ArrayList<E> extends AbstractList<E>
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     public void add(int index, E element) {
+        // 先校验下给定的下标是否合法
         rangeCheckForAdd(index);
-
+        // 确保ArrayList中的数组有足够的空间去存放元素
         ensureCapacityInternal(size + 1);  // Increments modCount!!
+        // 这行代码相当于将ArrayList中的数组的元素从index位置往后移一位，这时候index那个位置就空出来了
         System.arraycopy(elementData, index, elementData, index + 1,
                 size - index);
+        // 将元素保存到index位置
         elementData[index] = element;
+        // 容量+1
         size++;
     }
 
