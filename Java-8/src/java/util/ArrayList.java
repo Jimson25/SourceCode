@@ -234,6 +234,7 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * 这个方法用来保证ArrayList中有足够的空间去存放这个元素
+     *
      * @param minCapacity
      */
     private void ensureCapacityInternal(int minCapacity) {
@@ -523,21 +524,28 @@ public class ArrayList<E> extends AbstractList<E>
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     public E remove(int index) {
+        // 检查传入的索引位置是否合法
         rangeCheck(index);
 
+        // 修改次数+1
         modCount++;
+        // 获取指定索引位置的元素
         E oldValue = elementData(index);
 
+        // 计算index位置后面的元素个数
         int numMoved = size - index - 1;
         if (numMoved > 0)
+            // 将index位置后面的元素往前移一个位置，此时数组中最后两个元素是重复的
             System.arraycopy(elementData, index + 1, elementData, index,
                     numMoved);
+        // 将最后一个元素设置为null，size-1
         elementData[--size] = null; // clear to let GC do its work
-
+        // 返回删除的元素
         return oldValue;
     }
 
     /**
+     * 遍历数组，删除第一个和传入值相等的元素
      * Removes the first occurrence of the specified element from this list,
      * if it is present.  If the list does not contain the element, it is
      * unchanged.  More formally, removes the element with the lowest index
@@ -551,14 +559,17 @@ public class ArrayList<E> extends AbstractList<E>
      * @return <tt>true</tt> if this list contained the specified element
      */
     public boolean remove(Object o) {
+        // 传入的元素为null
         if (o == null) {
             for (int index = 0; index < size; index++)
+                // 遍历整个数组，如果找到一个元素值为null，就删除该元素并返回
                 if (elementData[index] == null) {
                     fastRemove(index);
                     return true;
                 }
         } else {
             for (int index = 0; index < size; index++)
+                // 遍历整个数组，如果存在某个索引对应的元素值和传入的元素值相等，就删除该元素并返回
                 if (o.equals(elementData[index])) {
                     fastRemove(index);
                     return true;
@@ -567,16 +578,21 @@ public class ArrayList<E> extends AbstractList<E>
         return false;
     }
 
-    /*
+    /**
+     * 删除数组中指定位置的元素
      * Private remove method that skips bounds checking and does not
      * return the value removed.
      */
     private void fastRemove(int index) {
+        // 修改次数+1
         modCount++;
+        // 获取指定索引后面的元素个数
         int numMoved = size - index - 1;
         if (numMoved > 0)
+            // 将指定索引位置后面的所有元素向前移动一位
             System.arraycopy(elementData, index + 1, elementData, index,
                     numMoved);
+        // 将最后面一个重复元素设置为null
         elementData[--size] = null; // clear to let GC do its work
     }
 
@@ -611,12 +627,21 @@ public class ArrayList<E> extends AbstractList<E>
         Object[] a = c.toArray();
         int numNew = a.length;
         ensureCapacityInternal(size + numNew);  // Increments modCount
+        // 将源数组中的元素复制到目标数组中，这里将传入的集合转换为数组，再将数组作为源数组从0索引开始拼接到目标数组最后面
+        // a: 源数组
+        // 0: 源数组中复制元素的起始位置
+        // elementData: 目标数组
+        // size: 目标数组存放接收的数组的起始位置
+        // number: 要复制的元素个数
         System.arraycopy(a, 0, elementData, size, numNew);
+        // 调整list的元素个数
         size += numNew;
+        // 如果传入的集合元素为空就返回false
         return numNew != 0;
     }
 
     /**
+     * 将一个集合添加到list容器的指定位置上
      * Inserts all of the elements in the specified collection into this
      * list, starting at the specified position.  Shifts the element
      * currently at that position (if any) and any subsequent elements to
@@ -632,18 +657,24 @@ public class ArrayList<E> extends AbstractList<E>
      * @throws NullPointerException      if the specified collection is null
      */
     public boolean addAll(int index, Collection<? extends E> c) {
+        // 检查传入的下标是否合法
         rangeCheckForAdd(index);
-
+        // 将传入的集合转换为数组
         Object[] a = c.toArray();
         int numNew = a.length;
+        // 保证ArrayList中有足够的空间去存放这些元素，如果空间不够就指定扩容
         ensureCapacityInternal(size + numNew);  // Increments modCount
 
+        // 计算要移动的元素个数
         int numMoved = size - index;
+        // 如果需要移动的元素个数大于0，就从index位置将指定个数的元素往后移动numNew个位置，
+        // 将数组中间空出来一段用来存放要插入的元素
         if (numMoved > 0)
             System.arraycopy(elementData, index, elementData, index + numNew,
                     numMoved);
-
+        // 将传入的元素添加到集合中
         System.arraycopy(a, 0, elementData, index, numNew);
+        // 修改集合中元素个数计数
         size += numNew;
         return numNew != 0;
     }
@@ -677,6 +708,7 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
+     * 检查传入的索引位置是否合法
      * Checks if the given index is in range.  If not, throws an appropriate
      * runtime exception.  This method does *not* check if the index is
      * negative: It is always used immediately prior to an array access,
@@ -688,6 +720,7 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
+     * 检查传入的下标是否合法
      * A version of rangeCheck used by add and addAll.
      */
     private void rangeCheckForAdd(int index) {
