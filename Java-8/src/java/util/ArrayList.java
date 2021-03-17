@@ -331,6 +331,8 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
+     * 获取传入的元素对应的下标
+     *
      * Returns the index of the first occurrence of the specified element
      * in this list, or -1 if this list does not contain the element.
      * More formally, returns the lowest index <tt>i</tt> such that
@@ -338,6 +340,7 @@ public class ArrayList<E> extends AbstractList<E>
      * or -1 if there is no such index.
      */
     public int indexOf(Object o) {
+        // 这个if-else只是区分o是否为null来决定是使用==还是equals，如果找不到就返回-1
         if (o == null) {
             for (int i = 0; i < size; i++)
                 if (elementData[i] == null)
@@ -351,6 +354,9 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
+     * 找到传入元素最后一次出现的位置
+     * 这个方法跟前面的indexOf()是一样的，只不过这里是倒序从list中查找
+     *
      * Returns the index of the last occurrence of the specified element
      * in this list, or -1 if this list does not contain the element.
      * More formally, returns the highest index <tt>i</tt> such that
@@ -597,6 +603,8 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
+     * 将数组中全部元素设置为null
+     *
      * Removes all of the elements from this list.  The list will
      * be empty after this call returns.
      */
@@ -680,6 +688,8 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
+     * 删除一个取件的元素
+     *
      * Removes from this list all of the elements whose index is between
      * {@code fromIndex}, inclusive, and {@code toIndex}, exclusive.
      * Shifts any succeeding elements to the left (reduces their index).
@@ -709,6 +719,7 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * 检查传入的索引位置是否合法
+     *
      * Checks if the given index is in range.  If not, throws an appropriate
      * runtime exception.  This method does *not* check if the index is
      * negative: It is always used immediately prior to an array access,
