@@ -189,6 +189,8 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
+     * 删除多余的容量
+     *
      * Trims the capacity of this <tt>ArrayList</tt> instance to be the
      * list's current size.  An application can use this operation to minimize
      * the storage of an <tt>ArrayList</tt> instance.
@@ -318,6 +320,8 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
+     * 使用传入的值在数组中查询其对应的下标，如果有下标，就说明数组中存在这个元素
+     *
      * Returns <tt>true</tt> if this list contains the specified element.
      * More formally, returns <tt>true</tt> if and only if this list contains
      * at least one element <tt>e</tt> such that
